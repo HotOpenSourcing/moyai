@@ -1,3 +1,8 @@
+import utils.net
+import utils.clients
+import utils.http_session
+import utils.transport
+import utils.session
 import asyncio
 import hmac
 import json
@@ -856,6 +861,10 @@ def create_app(settings: Settings | None = None):
     harness_gateway = HarnessGateway(settings=settings, store=store, spend=spend,
         checkpoints=checkpoints, require_run=require_run, read_body=broker_body,
         model_slots=model_slots, memory=memory, skills=skills, tracing=tracing)
+
+    @app.post('/broker/{run_id}/context/compact')
+    async def compact_context(run_id: str, request: Request):
+        return await harness_gateway.forward(run_id, request, '/context/compact')
 
     @app.post('/broker/{run_id}/v1/messages')
     async def messages_proxy(run_id: str, request: Request):

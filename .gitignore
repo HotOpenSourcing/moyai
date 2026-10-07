@@ -1,8 +1,8 @@
 .venv/
-.env
-.env.*
 !.env.example
 .data/
 __pycache__/
 .pytest_cache/
 *.pyc
+config.bat
+node_modules
